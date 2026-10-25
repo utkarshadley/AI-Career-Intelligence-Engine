@@ -1,0 +1,27 @@
+
+# API keys and environment variables
+.env
+.env.*
+!.env.example
+
+# Python environments and cache
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# Large ML models — upload separately later
+*.pkl
+
+# Large datasets
+cleaned_data.csv
+
+# Power BI files
+*.pbix
+
+# Temporary files
+tempCodeRunnerFile.py
+
+# Unrelated SQL file
+job_data.sql

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>AI Career Intelligence</title>
+
+    <style>
+        :root {
+            --bg: #f4f5f8;
+            --surface: #ffffff;
+            --surface-2: #f8f9fb;
+            --border: #e1e4ea;
+            --text: #172033;
+            --muted: #5b6577;
+            --accent: #2c4bd1;
+            --accent-hover: #2339a8;
+            --accent-soft: #eceffd;
+            --on-accent: #ffffff;
+            --ring: rgba(44, 75, 209, 0.28);
+            --radius: 10px;
+            --shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0e121a;
+                --surface: #161b25;
+                --surface-2: #1b212d;
+                --border: #2a3241;
+                --text: #e7eaf0;
+                --muted: #9ba5b6;
+                --accent: #7b8fff;
+                --accent-hover: #96a6ff;
+                --accent-soft: #1d2542;
+                --on-accent: #0e121a;
+                --ring: rgba(123, 143, 255, 0.35);
+                --shadow: none;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+        .topbar-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 20px 24px;
+        }
+        .topbar h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 650;
+            letter-spacing: -0.01em;
+        }
+        .topbar p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .card-head { margin-bottom: 18px; }
+        .card-head h2 { margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -0.01em; }
+        .card-head p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
+        .group { padding: 18px 0; border-top: 1px solid var(--border); }
+        .group:first-of-type { border-top: 0; padding-top: 0; }
+        .group-title {
+            margin: 0 0 12px;
+            font-size: 12px;
+            font-weight: 650;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+        }
+
+        .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+        .full-width { grid-column: 1 / -1; }
+
+        label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: var(--surface);
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        input::placeholder, textarea::placeholder { color: var(--muted); opacity: .8; }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--ring);
+        }
+        textarea { resize: vertical; }
+
+        button {
+            appearance: none;
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: var(--on-accent);
+            padding: 9px 16px;
+            border-radius: 7px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .15s, box-shadow .15s;
+        }
+        button:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+        button:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+        button:disabled { opacity: .6; cursor: wait; }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--border);
+        }
+        .secondary-button:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+        .form-actions { display: flex; align-items: center; gap: 14px; padding-top: 18px; border-top: 1px solid var(--border); }
+        #status { margin: 0; color: var(--muted); font-size: 14px; }
+
+        .upload-box {
+            padding: 14px;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            background: var(--surface-2);
+        }
+        .upload-box input[type=file] { padding: 6px; background: var(--surface); }
+        .upload-help { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
+        #resumeFileName { display: block; margin-top: 6px; color: var(--accent); font-size: 13px; overflow-wrap: anywhere; }
+
+        .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .tool-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .tool-card h3 { margin: 0 0 4px; font-size: 15px; font-weight: 650; }
+        .tool-note { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0 0 14px; }
+        .tool-result {
+            margin-top: 14px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 650;
+            line-height: 1.5;
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+        }
+        .tool-result .tool-note { margin: 0; font-size: 12.5px; }
+        .insight-result {
+            margin-top: 14px;
+            width: 100%;
+            font-size: 13.5px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font-variant-numeric: tabular-nums;
+        }
+        .footnote { margin: 16px 0 0; color: var(--muted); font-size: 12.5px; }
+
+        #result { line-height: 1.65; overflow-wrap: anywhere; color: var(--muted); }
+        .section {
+            padding: 14px 16px;
+            margin: 12px 0 0;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text);
+        }
+        .section:first-child { margin-top: 0; }
+        .section h3 { margin: 0 0 6px; font-size: 14px; font-weight: 650; color: var(--accent); }
+
+        @media (max-width: 680px) {
+            .container { padding: 14px; }
+            .topbar-inner { padding: 16px 14px; }
+            .card { padding: 18px; }
+            .form-grid, .tool-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: auto; }
+        }
+    </style>
+</head>
+
+<body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <h1>AI Career Intelligence</h1>
+        <p>Salary estimates, model insights and a personalised learning roadmap.</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <div class="card-head">
+            <h2>Career Profile</h2>
+            <p>This profile feeds both the prediction models and the career plan.</p>
+        </div>
+
+        <form id="careerForm">
+            <div class="group">
+                <p class="group-title">Background</p>
+                <div class="form-grid">
+                    <div>
+                        <label for="stage">Career Stage</label>
+                        <select id="stage">
+                            <option>Student</option>
+                            <option>Fresher</option>
+                            <option>Working Professional</option>
+                            <option>Career Switcher</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="job">Target Job Role</label>
+                        <input id="job" value="Data Analyst" required>
+                    </div>
+                    <div>
+                        <label for="experience">Experience (years)</label>
+                        <input id="experience" type="number" min="0" max="50" value="0" required>
+                    </div>
+                    <div>
+                        <label for="education">Education</label>
+                        <input id="education" value="MCA" required>
+                    </div>
+                    <div class="full-width">
+                        <label for="skills">Skills (comma-separated)</label>
+                        <input id="skills" placeholder="Python, SQL, Excel, Power BI" required>
+                    </div>
+                    <div class="full-width">
+                        <label for="interests">Career Interests</label>
+                        <input id="interests" placeholder="Data Analytics, AI, Business Intelligence">
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <p class="group-title">Work preferences</p>
+                <div class="form-grid">
+                    <div>
+                        <label for="location">Preferred Location</label>
+                        <input id="location" value="India" required>
+                    </div>
+                    <div>
+                        <label for="company">Company Size</label>
+                        <select id="company">
+                            <option>Startup</option>
+                            <option>Small</option>
+                            <option selected>Medium</option>
+                            <option>Large</option>
+                            <option>Enterprise</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="industry">Industry</label>
+                        <select id="industry">
+                            <option value="" selected>Not specified</option>
+                            <option>Education</option><option>Finance</option><option>Government</option>
+                            <option>Healthcare</option><option>Manufacturing</option><option>Media</option>
+                            <option>Retail</option><option>Technology</option><option>Telecom</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="remote">Remote Work</label>
+                        <select id="remote"><option value="false" selected>No</option><option value="true">Yes</option></select>
+                    </div>
+                    <div>
+                        <label for="certs">Certifications (count)</label>
+                        <input id="certs" type="number" min="0" max="50" value="0">
+                    </div>
+                    <div>
+                        <label for="preference">Career Preference</label>
+                        <select id="preference">
+                            <option>Job</option>
+                            <option>Internship</option>
+                            <option>Freelancing</option>
+                            <option>Business</option>
+                            <option>Higher Studies</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <p class="group-title">Learning plan</p>
+                <div class="form-grid">
+                    <div>
+                        <label for="budget">Learning Budget</label>
+                        <select id="budget">
+                            <option selected>Free resources preferred</option>
+                            <option>Under ₹5,000</option>
+                            <option>₹5,000–₹20,000</option>
+                            <option>Flexible budget</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="hours">Daily Study Hours</label>
+                        <input id="hours" type="number" min="0.5" max="24" step="0.5" value="2" required>
+                    </div>
+                    <div>
+                        <label for="risk">Risk Tolerance</label>
+                        <select id="risk">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="language">Response Language</label>
+                        <select id="language">
+                            <option selected>Hinglish</option>
+                            <option>English</option>
+                            <option>Hindi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <p class="group-title">Resume (optional)</p>
+                <div class="form-grid">
+                    <div class="full-width">
+                        <label for="resumeFile">Upload Resume</label>
+                        <div class="upload-box">
+                            <input id="resumeFile" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+                            <p class="upload-help">PDF, DOCX or TXT, up to 5 MB. Text is extracted in your browser and sent with your profile.</p>
+                            <span id="resumeFileName" aria-live="polite"></span>
+                        </div>
+                    </div>
+                    <div class="full-width">
+                        <label for="resume">Resume Text</label>
+                        <textarea id="resume" rows="3" placeholder="Upload a resume above or paste your resume text here"></textarea>
+                    </div>
+                    <div class="full-width">
+                        <label for="context">Additional Information</label>
+                        <textarea id="context" rows="3" placeholder="Your goals, current challenges, or preferred industries"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button id="submitBtn" type="submit">Generate Career Plan</button>
+                <p id="status" role="status"></p>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <div class="card-head">
+            <h2>Predictions &amp; Model Insights</h2>
+            <p>Runs the trained models on the profile above.</p>
+        </div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <h3>Salary Prediction</h3>
+                <p class="tool-note">Estimated annual salary (in USD, as in the training data).</p>
+                <button type="button" id="salaryBtn">Predict Salary</button>
+                <div id="salaryResult" class="tool-result" aria-live="polite">No prediction yet.</div>
+            </div>
+            <div class="tool-card">
+                <h3>High-Salary Chance</h3>
+                <p class="tool-note">Probability of an above-median salary. The model was trained on salary &gt; median, not on real hiring outcomes.</p>
+                <button type="button" id="jobChanceBtn">Predict High-Salary Chance</button>
+                <div id="jobChanceResult" class="tool-result" aria-live="polite">No prediction yet.</div>
+            </div>
+            <div class="tool-card">
+                <h3>Salary Drivers</h3>
+                <p class="tool-note">Which features matter most to the salary model, and what changes your result.</p>
+                <button type="button" class="secondary-button" id="salaryImportanceBtn">Show Salary Insights</button>
+                <div id="salaryImportanceResult" class="insight-result"></div>
+            </div>
+            <div class="tool-card">
+                <h3>High-Salary Drivers</h3>
+                <p class="tool-note">Which features drive the above-median-salary model.</p>
+                <button type="button" class="secondary-button" id="jobImportanceBtn">Show Job Insights</button>
+                <div id="jobImportanceResult" class="insight-result"></div>
+            </div>
+        </div>
+        <p class="footnote">Predictions are model estimates and depend on the training data and feature encoding.</p>
+    </section>
+
+    <section class="card">
+        <div class="card-head">
+            <h2>Personalised Career Plan</h2>
+        </div>
+        <div id="result">Your career advice will appear here.</div>
+    </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+<script>
+    const form = document.getElementById("careerForm");
+    const statusText = document.getElementById("status");
+    const result = document.getElementById("result");
+    const submitBtn = document.getElementById("submitBtn");
+    const resumeFileInput = document.getElementById("resumeFile");
+    const resumeFileName = document.getElementById("resumeFileName");
+    const resumeTextarea = document.getElementById("resume");
+    const MAX_RESUME_BYTES = 5 * 1024 * 1024;
+
+    function buildPayload() {
+        const skills = document.getElementById("skills").value
+            .split(",").map(s => s.trim()).filter(Boolean);
+        const interests = document.getElementById("interests").value
+            .split(",").map(s => s.trim()).filter(Boolean);
+        return {
+            experience_years: Number(document.getElementById("experience").value),
+            skills_count: skills.length,
+            skills,
+            location: document.getElementById("location").value.trim(),
+            education_level: document.getElementById("education").value.trim(),
+            company_size: document.getElementById("company").value,
+            job_title: document.getElementById("job").value.trim(),
+            remote_work: document.getElementById("remote").value === "true",
+            certifications: Number(document.getElementById("certs").value) || 0,
+            industry: document.getElementById("industry").value || null,
+            interests,
+            budget: document.getElementById("budget").value,
+            daily_available_hours: Number(document.getElementById("hours").value),
+            career_preference: document.getElementById("preference").value,
+            risk_tolerance: document.getElementById("risk").value,
+            preferred_language: document.getElementById("language").value,
+            career_stage: document.getElementById("stage").value,
+            resume_text: document.getElementById("resume").value.trim() || null,
+            additional_context: document.getElementById("context").value.trim() || null
+        };
+    }
+
+    function warnText(data) {
+        return (data.warnings && data.warnings.length) ? "\n\nNotes:\n- " + data.warnings.join("\n- ") : "";
+    }
+
+    async function postPrediction(endpoint, outputId, buttonId, formatter) {
+        const output = document.getElementById(outputId);
+        const button = document.getElementById(buttonId);
+        button.disabled = true;
+        output.textContent = "Running model...";
+        try {
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(buildPayload())
+            });
+            const data = await response.json();
+            if (!response.ok || data.error) {
+                throw new Error(data.detail || data.error || "Request failed");
+            }
+            const lines = formatter(data).split("\n");
+            output.replaceChildren();
+            const main = document.createElement("div");
+            main.textContent = lines[0];
+            output.appendChild(main);
+            const rest = lines.slice(1).join("\n").trim();
+            if (rest) {
+                const note = document.createElement("div");
+                note.className = "tool-note";
+                note.style.fontWeight = "400";
+                note.style.whiteSpace = "pre-line";
+                note.style.marginTop = "8px";
+                note.textContent = rest;
+                output.appendChild(note);
+            }
+        } catch (error) {
+            output.textContent = "Could not run prediction: " + error.message;
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function loadImportance(endpoint, outputId, buttonId, whatifEndpoint, kind) {
+        const output = document.getElementById(outputId);
+        const button = document.getElementById(buttonId);
+        button.disabled = true;
+        output.textContent = "Loading model insights...";
+        try {
+            const response = await fetch(endpoint);
+            const data = await response.json();
+            if (!response.ok || data.error) throw new Error(data.detail || data.error || "Request failed");
+            let text = "Overall model importance (same for everyone):\n" +
+                data.map((item, i) => `${i + 1}. ${item.Label || item.Feature}: ${(Number(item.Importance) * 100).toFixed(1)}%`).join("\n");
+
+            const wr = await fetch(whatifEndpoint, {
+                method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(buildPayload())
+            });
+            const w = await wr.json();
+            if (wr.ok && !w.error) {
+                const fmt = v => kind === "salary" ? Math.round(v).toLocaleString("en-IN") : v.toFixed(2) + " pts";
+                const sign = v => (v >= 0 ? "+" : "-") + fmt(Math.abs(v));
+                text += "\n\nWhat changes YOUR result (current: " + fmt(w.base) + "):\n";
+                text += w.changes.length
+                    ? w.changes.map(c => `- ${c.change}: ${sign(c.delta)}`).join("\n")
+                    : "- No single change moves this prediction (model output is flat for this profile).";
+            }
+            output.textContent = text;
+        } catch (error) {
+            output.textContent = "Could not load insights: " + error.message;
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    document.getElementById("salaryBtn").addEventListener("click", () =>
+        postPrediction("/predict-salary", "salaryResult", "salaryBtn", data =>
+            `Estimated annual salary: ${({INR: "₹", USD: "$"}[data.currency] || data.currency + " ")}${Number(data.predicted_salary).toLocaleString("en-IN", { maximumFractionDigits: 0 })}\n${data.note || ""}${warnText(data)}`
+        )
+    );
+    document.getElementById("jobChanceBtn").addEventListener("click", () =>
+        postPrediction("/job-chance", "jobChanceResult", "jobChanceBtn", data =>
+            `Chance of above-median salary: ${Number(data.job_chance_percent).toFixed(2)}%\n${data.note || ""}${warnText(data)}`
+        )
+    );
+    document.getElementById("salaryImportanceBtn").addEventListener("click", () =>
+        loadImportance("/salary-importance", "salaryImportanceResult", "salaryImportanceBtn", "/salary-whatif", "salary")
+    );
+    document.getElementById("jobImportanceBtn").addEventListener("click", () =>
+        loadImportance("/job-importance", "jobImportanceResult", "jobImportanceBtn", "/job-whatif", "job")
+    );
+
+    if (window.pdfjsLib) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    }
+
+    async function extractResumeText(file) {
+        const extension = file.name.split(".").pop().toLowerCase();
+        if (file.size > MAX_RESUME_BYTES) throw new Error("Resume file is larger than 5 MB. Please upload a smaller file.");
+        if (extension === "txt") return await file.text();
+
+        if (extension === "pdf") {
+            if (!window.pdfjsLib) throw new Error("PDF reader library did not load. Check your internet connection or paste the resume text manually.");
+            const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+            const pages = [];
+            for (let n = 1; n <= pdf.numPages; n++) {
+                const page = await pdf.getPage(n);
+                const content = await page.getTextContent();
+                pages.push(content.items.map(item => item.str).join(" "));
+            }
+            return pages.join("\n");
+        }
+
+        if (extension === "docx") {
+            if (!window.mammoth) throw new Error("DOCX reader library did not load. Check your internet connection or paste the resume text manually.");
+            return (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
+        }
+        throw new Error("Unsupported file type. Please choose a PDF, DOCX, or TXT file.");
+    }
+
+    resumeFileInput.addEventListener("change", async function () {
+        const file = resumeFileInput.files[0];
+        if (!file) { resumeFileName.textContent = ""; return; }
+        resumeFileName.textContent = "Reading " + file.name + "...";
+        statusText.textContent = "";
+        try {
+            const text = (await extractResumeText(file)).trim();
+            if (!text) throw new Error("No readable text found. Scanned PDFs may need OCR; alternatively paste the resume text manually.");
+            resumeTextarea.value = text;
+            resumeFileName.textContent = "Loaded: " + file.name;
+            statusText.textContent = "Resume text extracted. Click Generate Career Plan to analyze it.";
+        } catch (error) {
+            resumeFileInput.value = "";
+            resumeFileName.textContent = "";
+            statusText.textContent = error.message;
+        }
+    });
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const payload = buildPayload();
+
+        statusText.textContent = "Generating your career plan. Please wait...";
+        result.textContent = "";
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Analyzing...";
+
+        try {
+            const response = await fetch("/career-advice", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || data.error) {
+                throw new Error(data.detail || data.error || "Request failed");
+            }
+
+            const advice = data.career_advice;
+
+            if (typeof advice === "object" && advice !== null) {
+                result.replaceChildren();
+
+                for (const [heading, content] of Object.entries(advice)) {
+                    const section = document.createElement("div");
+                    section.className = "section";
+
+                    const title = document.createElement("h3");
+                    title.textContent = heading;
+
+                    const text = document.createElement("div");
+                    text.style.whiteSpace = "pre-wrap";
+                    text.textContent = String(content);
+
+                    section.append(title, text);
+                    result.appendChild(section);
+                }
+            } else {
+                result.textContent = String(advice || "No advice was returned.");
+            }
+
+            statusText.textContent = "Career plan generated successfully.";
+        } catch (error) {
+            statusText.textContent =
+                "Could not generate the plan. Check that the FastAPI server is running.";
+            result.textContent = error.message;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Generate Career Plan";
+        }
+    });
+</script>
+</body>
+</html>
