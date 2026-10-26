@@ -78,6 +78,7 @@ MODEL_REPO_ID = "innovatex0/ai-career-intelligence-models"
 def load_pickle(filename):
     file_path = hf_hub_download(
         repo_id=MODEL_REPO_ID,
+        cache_dir="/tmp/huggingface",
         filename=filename,
         repo_type="model"
     )
