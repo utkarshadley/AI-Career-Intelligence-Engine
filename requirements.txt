@@ -6,3 +6,4 @@ scikit-learn
 joblib
 python-dotenv
 google-genai
+huggingface_hub

@@ -7,6 +7,7 @@ import re
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from huggingface_hub import hf_hub_download
 from pydantic import BaseModel
 from google.genai import types
 from google import genai
@@ -68,13 +69,18 @@ if STATIC_DIR.exists():
 # 3. LOAD TRAINED ML MODELS
 # ==========================================
 
-def load_pickle(filename):
-    file_path = BASE_DIR / filename
 
-    if not file_path.exists():
-        raise FileNotFoundError(
-            f"Required model file not found: {filename}"
-        )
+import pickle
+from huggingface_hub import hf_hub_download
+
+MODEL_REPO_ID = "innovatex0/ai-career-intelligence-models"
+
+def load_pickle(filename):
+    file_path = hf_hub_download(
+        repo_id=MODEL_REPO_ID,
+        filename=filename,
+        repo_type="model"
+    )
 
     with open(file_path, "rb") as file:
         return pickle.load(file)
@@ -85,6 +91,7 @@ salary_columns = load_pickle("columns.pkl")
 
 job_model = load_pickle("job_model.pkl")
 job_columns = load_pickle("job_columns.pkl")
+
 
 
 # ==========================================
