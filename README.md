@@ -115,6 +115,12 @@ Large `.pkl` model files are intentionally excluded from this Git repository. Th
 
 The prediction outputs depend on the model training data and encoding. The current code labels salary values as **USD**, based on the training data; they should not be interpreted as verified Indian-market salary estimates.
 
+## 📊 Power BI Dashboard
+
+Explore the interactive Power BI dashboard for AI Career Intelligence Engine.
+
+🔗 **[View Power BI Dashboard](https://app.powerbi.com/view?r=eyJrIjoiOTU3MGZlNGYtOWZjNi00MzIxLWE3YTMtNzQyMmYzN2MwMmNiIiwidCI6IjIxMGY5Y2VjLTRkOWEtNGQ1MS1hYjJmLWMxOTBhNDZiZDg0MCJ9)**
+
 ## Limitations and responsible use
 
 - Predictions are estimates, not guarantees of salary, employability, hiring, or career outcomes.
