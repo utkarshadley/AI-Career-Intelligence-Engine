@@ -1,4 +1,7 @@
 import os
+os.environ["HF_HOME"] = "/tmp/huggingface"
+os.environ["HUGGINGFACE_HUB_CACHE"] = "/tmp/huggingface/hub"
+import os
 import pickle
 from pathlib import Path
 
