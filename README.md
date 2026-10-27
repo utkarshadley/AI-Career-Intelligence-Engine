@@ -125,7 +125,6 @@ Explore the interactive Power BI dashboard for AI Career Intelligence Engine.
 - Predictions are estimates, not guarantees of salary, employability, hiring, or career outcomes.
 - Model accuracy and fairness must be assessed on a suitable held-out dataset before real-world decisions are made.
 - Training-data coverage and category encoding can affect results for uncommon job titles, locations, education levels, and industries.
-- Career advice depends on the configured third-party AI service and can be incomplete or incorrect.
 - API availability depends on internet access, Hugging Face model availability, disk space, memory, and a valid API key.
 - A successful local run does not mean a hosted deployment is working. Hosted deployment is not claimed as verified here.
 - Do not submit sensitive personal information or private resumes unless you understand how the configured AI provider handles data.
