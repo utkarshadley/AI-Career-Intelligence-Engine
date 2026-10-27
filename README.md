@@ -2,7 +2,7 @@
 
 An educational AI/ML project that combines salary prediction, job-chance estimation, feature-importance endpoints, and AI-generated career guidance in a FastAPI application.
 
-> **Status:** The API has been tested locally by the project author. A hosted deployment is not currently confirmed as working. Model files are downloaded from Hugging Face at startup and are large, so first startup can take time and hosting environments may run out of disk space or memory.
+> **Status:** The API has been tested locally by the project author. A hosted deployment is  currently confirmed as working. Model files are downloaded from Hugging Face at startup and are large, so first startup can take time and hosting environments may run out of disk space or memory.
 
 ## Features
 
