@@ -64,7 +64,6 @@ An educational AI/ML project that combines salary prediction, job-chance estimat
    GEMINI_API_KEY=put_your_own_key_here
    ```
 
-   Keep your API key private. Never paste it into issues, screenshots, source code, or public commits.
 
 5. Start the API:
 
