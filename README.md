@@ -2,7 +2,7 @@
 
 **An AI-powered career analytics platform combining Machine Learning, Generative AI, and interactive data visualization.**
 
-[**🚀 Live Demo**](https://inquiries-appears-feat-along.trycloudflare.com/) · [**📊 Power BI Dashboard**](https://app.powerbi.com/view?r=eyJrIjoiOTU3MGZlNGYtOWZjNi00MzIxLWE3YTMtNzQyMmYzN2MwMmNiIiwidCI6IjIxMGY5Y2VjLTRkOWEtNGQ1MS1hYjJmLWMxOTBhNDZiZDg0MCJ9) · [**🤗 Hugging Face Models**](https://huggingface.co/innovatex0/ai-career-intelligence-models)
+[**🚀 Live Demo**](https://delegation-eric-herein-composed.trycloudflare.com/) · [**📊 Power BI Dashboard**](https://app.powerbi.com/view?r=eyJrIjoiOTU3MGZlNGYtOWZjNi00MzIxLWE3YTMtNzQyMmYzN2MwMmNiIiwidCI6IjIxMGY5Y2VjLTRkOWEtNGQ1MS1hYjJmLWMxOTBhNDZiZDg0MCJ9) · [**🤗 Hugging Face Models**](https://huggingface.co/innovatex0/ai-career-intelligence-models)
 
 ## Overview
 
